@@ -1,1 +1,738 @@
-Hello world
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>平邑县川上信息网络科技工作室</title>
+    <!-- 引入 layui.css -->
+    <link href="//unpkg.com/layui@2.10.1/dist/css/layui.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --primary-dark: #2980b9;
+            --secondary-color: #2c3e50;
+            --accent-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #495057;
+            --text-light: #6c757d;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+            background-color: #fff;
+            padding-top: 60px;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        /* 导航栏 */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 8px;
+            color: var(--accent-color);
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-menu li {
+            margin-left: 25px;
+            position: relative;
+        }
+        
+        .nav-menu a {
+            color: var(--secondary-color);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--primary-color);
+        }
+        
+        .nav-menu .active a {
+            color: var(--primary-color);
+        }
+        
+        .nav-menu .active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--primary-color);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--secondary-color);
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            height: calc(100vh - 60px);
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .hero p {
+            font-size: 1.25rem;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            opacity: 0.9;
+        }
+        
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-outline {
+            border: 2px solid white;
+            color: white;
+        }
+        
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+        
+        /* 内容区域 */
+        .section {
+            padding: 80px 0;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.25rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 3px;
+            background-color: var(--primary-color);
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .section-title p {
+            color: var(--text-light);
+            max-width: 700px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+        
+        /* 关于我们 */
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+        }
+        
+        .about-text {
+            flex: 1;
+        }
+        
+        .about-text h3 {
+            font-size: 1.75rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+        
+        .about-text p {
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+        
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s;
+        }
+        
+        .about-image:hover img {
+            transform: scale(1.05);
+        }
+        
+        /* 服务 */
+        .services {
+            background-color: var(--light-color);
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .service-card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+            text-align: center;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--secondary-color);
+        }
+        
+        .service-card p {
+            color: var(--text-light);
+        }
+        
+        /* 联系 */
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            margin-top: 40px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: center;
+            padding: 20px 30px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .contact-icon {
+            font-size: 2rem;
+            color: var(--primary-color);
+            margin-right: 15px;
+        }
+        
+        .contact-text h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--secondary-color);
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 60px 0 20px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-logo i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+        
+        .footer-desc {
+            max-width: 600px;
+            text-align: center;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+        
+        .social-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+        
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+        
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                flex-direction: column;
+            }
+            
+            .about-text {
+                order: 2;
+            }
+            
+            .about-image {
+                order: 1;
+                margin-bottom: 30px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-menu {
+                position: fixed;
+                top: 60px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 60px);
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding-top: 30px;
+                transition: all 0.5s ease;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            }
+            
+            .nav-menu.active {
+                left: 0;
+            }
+            
+            .nav-menu li {
+                margin: 15px 0;
+            }
+            
+            .hero {
+                min-height: 500px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+                padding: 0 15px;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-outline {
+                margin-top: 15px;
+                margin-left: 0;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .section-title h2 {
+                font-size: 1.8rem;
+            }
+            
+            .contact-item {
+                padding: 15px 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-title h2 {
+                font-size: 1.6rem;
+            }
+            
+            .service-card {
+                padding: 20px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="nav-bar">
+                <a href="#" class="logo">
+                    <i class="layui-icon layui-icon-release"></i>
+                    川上科技
+                </a>
+                
+                <ul class="nav-menu">
+                    <li class="active"><a href="#home">首页</a></li>
+                    <li><a href="#about">关于我们</a></li>
+                    <li><a href="#services">服务项目</a></li>
+                    <li><a href="#contact">联系我们</a></li>
+                </ul>
+                
+                <div class="mobile-menu-btn">
+                    <i class="layui-icon layui-icon-spread-left"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 英雄区域 -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>创新科技，引领未来</h1>
+            <p>平邑县川上信息网络科技工作室致力于为客户提供专业的信息技术解决方案，助力企业数字化转型。</p>
+            <div class="btn-group">
+                <a href="#services" class="btn btn-primary">我们的服务</a>
+                <a href="#contact" class="btn btn-outline">联系我们</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 关于我们 -->
+    <section class="section" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>关于我们</h2>
+                <p>平邑县川上信息网络科技工作室是一家专注于信息技术服务的创新型工作室</p>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>专业的技术团队</h3>
+                    <p>我们拥有一支经验丰富、技术精湛的团队，专注于为客户提供高质量的信息技术服务。团队成员均来自知名高校和互联网企业，具备扎实的理论基础和丰富的实战经验。</p>
+                    <p>我们秉承"客户至上、技术为本"的理念，坚持用最前沿的技术为客户创造最大价值。无论是网站开发、移动应用还是企业信息化解决方案，我们都能提供专业的服务。</p>
+                    <p>在快速发展的数字经济时代，我们致力于帮助客户把握数字化转型机遇，提升企业竞争力。</p>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80" alt="关于川上科技">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务项目 -->
+    <section class="section services" id="services">
+        <div class="container">
+            <div class="section-title">
+                <h2>我们的服务</h2>
+                <p>我们提供全方位的信息技术服务，满足您的各种需求</p>
+            </div>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="layui-icon layui-icon-console"></i>
+                    </div>
+                    <h3>网站开发</h3>
+                    <p>专业的企业官网、电商平台、管理系统开发，响应式设计，适配各种设备。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="layui-icon layui-icon-cellphone"></i>
+                    </div>
+                    <h3>移动应用</h3>
+                    <p>iOS和Android原生应用开发，跨平台解决方案，提供从设计到上线的全流程服务。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="layui-icon layui-icon-cloud"></i>
+                    </div>
+                    <h3>云计算服务</h3>
+                    <p>云服务器部署、云存储解决方案、企业上云咨询，帮助您轻松拥抱云计算。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="layui-icon layui-icon-chart"></i>
+                    </div>
+                    <h3>数据分析</h3>
+                    <p>大数据分析、商业智能解决方案，挖掘数据价值，助力企业决策。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="layui-icon layui-icon-auz"></i>
+                    </div>
+                    <h3>网络安全</h3>
+                    <p>网站安全防护、数据加密、安全审计，全方位保障您的信息安全。</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="layui-icon layui-icon-service"></i>
+                    </div>
+                    <h3>技术支持</h3>
+                    <p>7×24小时技术支持服务，快速响应，解决您的技术难题。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 联系我们 -->
+    <section class="section" id="contact">
+        <div class="container">
+            <div class="section-title">
+                <h2>联系我们</h2>
+                <p>如有任何问题或合作意向，欢迎通过以下方式与我们取得联系</p>
+            </div>
+            
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="layui-icon layui-icon-email contact-icon"></i>
+                    <div class="contact-text">
+                        <h3>企业邮箱</h3>
+                        <p>fsdami@riverdami.cn</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <a href="#" class="footer-logo">
+                    <i class="layui-icon layui-icon-release"></i>
+                    平邑县川上信息网络科技工作室
+                </a>
+                
+                <p class="footer-desc">
+                    我们致力于用技术创新推动企业发展，为客户提供专业、高效的信息技术服务解决方案。
+                </p>
+                
+                <ul class="social-links">
+                    <li><a href="#"><i class="layui-icon layui-icon-login-wechat"></i></a></li>
+                    <li><a href="#"><i class="layui-icon layui-icon-login-weibo"></i></a></li>
+                    <li><a href="#"><i class="layui-icon layui-icon-login-github"></i></a></li>
+                    <li><a href="#"><i class="layui-icon layui-icon-login-linkedin"></i></a></li>
+                </ul>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 平邑县川上信息网络科技工作室. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 引入 layui.js -->
+    <script src="//unpkg.com/layui@2.10.1/dist/layui.js"></script>
+    <script>
+        // 移动菜单切换
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-menu').classList.toggle('active');
+            this.querySelector('i').classList.toggle('layui-icon-spread-left');
+            this.querySelector('i').classList.toggle('layui-icon-shrink-right');
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 关闭移动菜单
+                if (document.querySelector('.nav-menu').classList.contains('active')) {
+                    document.querySelector('.nav-menu').classList.remove('active');
+                    document.querySelector('.mobile-menu-btn i').classList.toggle('layui-icon-spread-left');
+                    document.querySelector('.mobile-menu-btn i').classList.toggle('layui-icon-shrink-right');
+                }
+                
+                // 滚动到目标位置
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 60,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 滚动时导航栏高亮
+        window.addEventListener('scroll', function() {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-menu li');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 100 && pageYOffset < sectionTop + sectionHeight - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(li => {
+                li.classList.remove('active');
+                if (li.querySelector('a').getAttribute('href') === '#' + current) {
+                    li.classList.add('active');
+                }
+            });
+        });
+        
+        // 页面加载时检查位置
+        window.addEventListener('load', function() {
+            // 触发一次滚动事件以设置初始活动菜单项
+            window.dispatchEvent(new Event('scroll'));
+        });
+    </script>
+</body>
+</html>
